@@ -16,16 +16,12 @@ The photo editor should have these features:
 The **bolded** bullet points are **mandatory** and must be implemented, the rest can be done if you have time. If you can think of any other features or want to explore some other additions, feel free to only take the bolded of the mentioned bullet points and implement your own new features in addition instead of following the exact requirements.
 
 ## Resources
-The resources below are great recommendations for helping to start and build out your project. Please use **Flutter 2.0**.
-1. Flutter BLoC - Ideally v7.20+ / Use Cubit or BLoC within this library
-2. Provider (for Dependency Injection)
-3. Hive, Moor, Sqflite (for Persistence and Storage)
-4. path_provider (to allow storing photo files on Device)
-5. image_picker (Flutter plugin for Android/iOS image capture and selection)
+1. Flutter version 2.5.1 • channel stable •
+2. Flutter BLoC 7.3.0 - Using Bloc
+3. provider: 6.0.1
+4. path_provider: 2.0.5
+5. image_picker: 0.8.4+2
+6. [MatrixGestureDetector 0.2.0-nullsafety.1](https://pub.dev/packages/matrix_gesture_detector/versions/0.2.0-nullsafety.1)  - Using this package for setting up user's drag, zoom action on stickers
 
-## Evaluation
-We will evaluate your project depending on these factors:
-* The code quality
-* The implementation of the requirements
-* Documentation
+
 
