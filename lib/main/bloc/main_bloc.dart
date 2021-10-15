@@ -17,7 +17,6 @@ part 'main_event.dart';
 part 'main_state.dart';
 
 class MainBloc extends Bloc<MainEvent, MainState> {
-
   final ImagePicker _picker = ImagePicker();
 
   MainBloc() : super(const MainInitial()) {
@@ -53,28 +52,32 @@ class MainBloc extends Bloc<MainEvent, MainState> {
   Future<void> saveImage(GlobalKey globalKey, BuildContext context) async {
     ///Delay 200ms for UI to render
     await Future.delayed(const Duration(milliseconds: 200));
+
     ///Converting widget to byte data then to image bytes (Uint8List)
     RenderRepaintBoundary? boundary =
-    globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
+        globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage();
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List? pngBytes = byteData?.buffer.asUint8List();
+    final dir = await _storageDirectoryPath();
+
     ///
-    if (pngBytes != null) {
+    if (pngBytes != null && dir != null) {
       ///Save image on cache
-      final dir = await getExternalStorageDirectory();
       final timeStamp = DateTime.now().millisecondsSinceEpoch;
-      final myImagePath = dir!.path + '/my-img-$timeStamp.png';
+      final myImagePath = dir.path + '/my-img-$timeStamp.png';
       File imageFile = File(myImagePath);
       if (!await imageFile.exists()) {
         imageFile.create(recursive: true);
       }
       imageFile.writeAsBytes(pngBytes.toList());
+
       ///
       // print('Created file successfully!');
       // print('File path: ${imageFile.path}');
       ///Delay 200ms for UI to render
       await Future.delayed(const Duration(milliseconds: 200));
+
       ///Show saved image
       showDialog(
           context: context,
@@ -84,6 +87,14 @@ class MainBloc extends Bloc<MainEvent, MainState> {
           barrierDismissible: true);
     } else {
       print('Failed to create file: pngBytes is null!');
+    }
+  }
+
+  Future<Directory?> _storageDirectoryPath() async {
+    if (Platform.isIOS) {
+      return await getApplicationDocumentsDirectory();
+    } else {
+      return await getExternalStorageDirectory();
     }
   }
 }
